@@ -28,3 +28,18 @@ I graduated from MIT in 2025 with degrees in Physics and Mathematics. During my 
      limit:3 %}
 - [{{ post.title }}]({{ post.url }}) ({{ post.date | date: "%Y" }})
 {% endfor %}
+
+## Test
+{% comment %}
+  1. Sort ascending by date → oldest→newest
+  2. Reverse the array        → newest→oldest
+  3. Then take limit:3         → three newest, in descending order
+{% endcomment %}
+
+{% assign sorted_pubs = site.publications 
+     | sort: "date"    /* oldest→newest */
+     | reverse         /* newest→oldest */ %}
+
+{% for post in sorted_pubs limit:3 %}
+- [{{ post.title }}]({{ post.url }}) ({{ post.date | date: "%Y" }})
+{% endfor %}
