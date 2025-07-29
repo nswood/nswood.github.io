@@ -1,7 +1,7 @@
 ---
 title: "NeurIPS ML4PS: Product Manifold Machine Learning for Physics"
 collection: publications
-category: conference
+category: conferences
 permalink: /publication/2014-12-01-PMML-NeurIPS
 excerpt: 'This paper is about the number 2. The number 3 is left for future work.'
 date: 2014-12-01
