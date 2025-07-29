@@ -13,11 +13,18 @@ I graduated from MIT in 2025 with degrees in Physics and Mathematics. During my 
 
 ## Recent Publications
 
-{% for post in site.publications limit:3 reversed %}
+{% for post in site.publications
+     | sort: "date"
+     | reverse
+     limit:3 %}
 - [{{ post.title }}]({{ post.url }}) ({{ post.date | date: "%Y" }})
 {% endfor %}
 
+
 ## Recent Talks
-{% for post in site.talks limit:3 reversed %}
+{% for post in site.talks
+     | sort: "date"
+     | reverse
+     limit:3 %}
 - [{{ post.title }}]({{ post.url }}) ({{ post.date | date: "%Y" }})
 {% endfor %}
