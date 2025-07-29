@@ -1,0 +1,11 @@
+---
+title: "Product Manifold Machine Learning for Physics"
+collection: talks
+type: "Talk"
+permalink: /talks/iaifi_thematic_PMML
+venue: 'IAIFI Thematic Discussion on Representation and Manifold Learning.'
+excerpt: 'Many of the recent successes in AI rely on the manifold hypothesis: that most high-dimensional data lie on a lower-dimensional manifold. From transfer to contrastive learning to foundation modeling, significant effort has been devoted to methods to efficiently find and map input data to this latent space. In this Thematic Discussion Session, we’ll hear from three distinguished speakers on extracting meaningful latent representations from data from the physical sciences: Aizhan Akhmetzhanova (Self-Supervised Learning for Data Compression and Inference in Cosmology), Nate Woodward, (Product Manifold Machine Learning for Physics) and David Baek, (GenEFT: Physics-Inspired Theory of Representation Learning). After three 10-minute lightning talks, we’ll have a 30 minute open discussion/Q&A session to explore the major challenges and opportunities in this field. We encourage attendees to come with questions and insights from their own work!'
+location: "MIT"
+---
+
+The slides and recording are available to IAIFI members only: [https://iaifi.org/lightning-talks.html]
