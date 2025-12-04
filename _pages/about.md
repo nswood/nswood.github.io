@@ -24,7 +24,13 @@ I graduated from MIT in 2025 with degrees in Physics and Mathematics. During my 
      | reverse         /* newest→oldest */ %}
 
 {% for post in sorted_pubs limit:3 %}
+  {% if post.link %}
+- [{{ post.title }}]({{ post.link }}) ({{ post.date | date: "%Y" }})
+  {% elsif post.paperurl %}
+- [{{ post.title }}]({{ post.paperurl }}) ({{ post.date | date: "%Y" }})
+  {% else %}
 - [{{ post.title }}]({{ post.url }}) ({{ post.date | date: "%Y" }})
+  {% endif %}
 {% endfor %}
 
 ## Recent Talks
