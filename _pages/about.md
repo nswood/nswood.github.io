@@ -20,7 +20,7 @@ redirect_from:
 
 <div style="display: flex; align-items: center; gap: 2.5em; margin-bottom: 2.5em; flex-wrap: wrap; justify-content: center;">
   <div style="flex-shrink: 0;">
-    <img src="/images/8B550177-F22B-488C-8244-24DA3DFCCC7A_1_105_c.jpeg" alt="Nate S. Woodward" style="width: 140px; border-radius: 50%; border: 2px solid rgba(100, 180, 220, 0.4);">
+    <img src="/images/8B550177-F22B-488C-8244-24DA3DFCCC7A_1_105_c.jpeg" alt="Nate S. Woodward" style="width: 180px; border-radius: 50%; border: 2px solid rgba(100, 180, 220, 0.4);">
   </div>
   <div style="text-align: left;">
     <p style="margin: 0 0 0.3em 0; font-size: 1.1em; font-weight: 500;">PhD Student @ UW-Madison</p>
@@ -39,14 +39,6 @@ redirect_from:
 
 <p>I graduated from MIT in 2025 with degrees in Physics and Mathematics. During my undergraduate studies I worked in Professor Phil Harris's group and with the NSF AI Institute for Artificial Intelligence and Fundamental Interactions (IAIFI), building ML tools for high‑energy physics. My experience spans geometric ML for jet physics, detector readout algorithms, and theoretical QFT calculations.</p>
 
-<h2>Recent Posts</h2>
-
-{% for post in site.posts limit:3 %}
-{% if post.title %}
-<p style="margin: 0.5em 0;">• <a href="{{ post.url }}">{{ post.title }}</a> ({{ post.date | date: "%Y-%m-%d" }})</p>
-{% endif %}
-{% endfor %}
-
 <h2>Recent Publications</h2>
 
 {% assign sorted_pubs = site.publications | sort: "date" | reverse %}
@@ -58,6 +50,14 @@ redirect_from:
 <p style="margin: 0.5em 0;">• <a href="{{ post.paperurl }}">{{ post.title }}</a> ({{ post.date | date: "%Y" }})</p>
 {% else %}
 <p style="margin: 0.5em 0;">• <a href="{{ post.url }}">{{ post.title }}</a> ({{ post.date | date: "%Y" }})</p>
+{% endif %}
+{% endfor %}
+
+<h2>Recent Posts</h2>
+
+{% for post in site.posts limit:3 %}
+{% if post.title %}
+<p style="margin: 0.5em 0;">• <a href="{{ post.url }}">{{ post.title }}</a> ({{ post.date | date: "%Y-%m-%d" }})</p>
 {% endif %}
 {% endfor %}
 
