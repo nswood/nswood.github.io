@@ -502,23 +502,32 @@ class QuantumFoamHeader {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function initQuantumFoam() {
     const container = document.getElementById('quantum-foam-header');
-    if (container) {
-        // Destroy existing instance if present
-        if (window.quantumFoam) {
-            window.quantumFoam.destroy();
-            window.quantumFoam = null;
-        }
+    if (!container) return;
 
-        // Reset text container to initial state
-        const textContainer = document.getElementById('header-text-container');
-        if (textContainer) {
-            textContainer.style.opacity = '0';
-            textContainer.style.transform = 'translate(-50%, -50%) scale(0.1)';
-        }
-
-        // Create new instance
-        window.quantumFoam = new QuantumFoamHeader('quantum-foam-header');
+    // Destroy existing instance if present
+    if (window.quantumFoam) {
+        window.quantumFoam.destroy();
+        window.quantumFoam = null;
     }
-});
+
+    // Reset text container to initial state
+    const textContainer = document.getElementById('header-text-container');
+    if (textContainer) {
+        textContainer.style.opacity = '0';
+        textContainer.style.transform = 'translate(-50%, -50%) scale(0.1)';
+    }
+
+    // Create new instance
+    window.quantumFoam = new QuantumFoamHeader('quantum-foam-header');
+}
+
+// Initialize immediately if DOM is already loaded, otherwise wait
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initQuantumFoam);
+} else {
+    // DOM is already loaded (happens on refresh)
+    initQuantumFoam();
+}
+```
