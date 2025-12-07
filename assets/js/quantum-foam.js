@@ -4,6 +4,13 @@
  * resembling quantum vacuum fluctuations.
  */
 
+const AnimationState = {
+    INTRO_APPROACH: 0,
+    INTRO_MERGE: 1,
+    INTRO_REVEAL: 2,
+    NORMAL: 3
+};
+
 class QuantumFoamHeader {
     constructor(containerId) {
         this.container = document.getElementById(containerId);
@@ -25,6 +32,10 @@ class QuantumFoamHeader {
         this.gaussians = [];
         this.animationId = null;
 
+
+        this.state = AnimationState.INTRO_APPROACH;
+        this.introGaussians = []; // specific reference to hero blobs
+
         this.init();
     }
 
@@ -43,7 +54,11 @@ class QuantumFoamHeader {
 
         this.ctx = this.canvas.getContext('2d');
         this.resize();
+
         // initHeightMap and initNoise are called in resize -> setConfig
+
+
+        this.initIntro();
         this.animate();
 
         window.addEventListener('resize', () => this.resize());
@@ -178,8 +193,12 @@ class QuantumFoamHeader {
     }
 
     updateGaussians() {
-        if (Math.random() < 0.4) {
-            this.spawnGaussian();
+        if (this.state === AnimationState.NORMAL) {
+            if (Math.random() < 0.4) {
+                this.spawnGaussian();
+            }
+        } else {
+            this.updateIntro();
         }
 
         for (let i = this.gaussians.length - 1; i >= 0; i--) {
@@ -348,7 +367,112 @@ class QuantumFoamHeader {
         this.animationId = requestAnimationFrame(() => this.animate());
     }
 
+    initIntro() {
+        this.gaussians = [];
+        this.state = AnimationState.INTRO_APPROACH;
+
+        const isMobile = this.width < 768;
+        const amplitude = isMobile ? 180 : 250;
+        const sigma = isMobile ? 3.5 : 2.0;
+        const z = this.gridDepth * 0.4;
+
+        const leftBlob = {
+            x: this.gridWidth * 0.15,
+            z: z,
+            amplitude: 0,
+            maxAmplitude: amplitude,
+            sigma: sigma,
+            phase: 0,
+            speed: 0.02,
+            targetX: this.gridWidth * 0.45,
+            noiseScale: 0.2
+        };
+
+        const rightBlob = {
+            x: this.gridWidth * 0.85,
+            z: z,
+            amplitude: 0,
+            maxAmplitude: amplitude,
+            sigma: sigma,
+            phase: 0,
+            speed: 0.02,
+            targetX: this.gridWidth * 0.55,
+            noiseScale: 0.2
+        };
+
+        this.introGaussians = [leftBlob, rightBlob];
+        this.gaussians = [leftBlob, rightBlob];
+    }
+
+    updateIntro() {
+        const [left, right] = this.introGaussians;
+        if (!left || !right) {
+            this.state = AnimationState.NORMAL;
+            return;
+        }
+
+        if (this.state === AnimationState.INTRO_APPROACH) {
+            const approachSpeed = (this.gridWidth * 0.005);
+            if (left.x < left.targetX) left.x += approachSpeed;
+            if (right.x > right.targetX) right.x -= approachSpeed;
+
+            if (Math.random() < 0.3) {
+                this.spawnIntroParticle(left.x, left.z);
+                this.spawnIntroParticle(right.x, right.z);
+            }
+
+            if (right.x - left.x < (this.gridWidth * 0.12)) {
+                this.state = AnimationState.INTRO_MERGE;
+            }
+        }
+        else if (this.state === AnimationState.INTRO_MERGE) {
+            const mergeSpeed = (this.gridWidth * 0.001);
+            if (left.x < this.gridWidth * 0.48) left.x += mergeSpeed;
+            if (right.x > this.gridWidth * 0.52) right.x -= mergeSpeed;
+
+            if (right.x - left.x < (this.gridWidth * 0.06)) {
+                this.state = AnimationState.INTRO_REVEAL;
+                this.revealContent();
+            }
+        }
+        else if (this.state === AnimationState.INTRO_REVEAL) {
+            if (left.phase === 0) { left.phase = 1; left.amplitude = left.maxAmplitude; }
+            if (right.phase === 0) { right.phase = 1; right.amplitude = right.maxAmplitude; }
+            this.state = AnimationState.NORMAL;
+        }
+
+        if (this.state !== AnimationState.NORMAL) {
+            left.phase = 0;
+            right.phase = 0;
+            if (left.amplitude >= left.maxAmplitude) left.amplitude = left.maxAmplitude;
+            if (right.amplitude >= right.maxAmplitude) right.amplitude = right.maxAmplitude;
+        }
+    }
+
+    spawnIntroParticle(x, z) {
+        const particle = {
+            x: x + (Math.random() - 0.5) * 5,
+            z: z + (Math.random() - 0.5) * 5,
+            amplitude: 0,
+            maxAmplitude: 40 + Math.random() * 40,
+            sigma: 0.5 + Math.random() * 0.5,
+            phase: 0,
+            speed: 0.04 + Math.random() * 0.04,
+            noiseScale: 0.2
+        };
+        this.gaussians.push(particle);
+    }
+
+    revealContent() {
+        const container = document.getElementById('header-text-container');
+        if (container) {
+            container.style.opacity = '1';
+            container.style.transform = 'translate(-50%, -50%) scale(1)';
+        }
+    }
+
     destroy() {
+
         if (this.animationId) cancelAnimationFrame(this.animationId);
         if (this.canvas && this.canvas.parentNode) {
             this.canvas.parentNode.removeChild(this.canvas);

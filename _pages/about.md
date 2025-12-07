@@ -9,7 +9,7 @@ redirect_from:
 ---
 
 <div id="quantum-foam-header" style="position: relative; width: 100vw; margin-left: calc(-50vw + 50%); height: 300px; margin-bottom: 0; overflow: visible;">
-  <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(26, 26, 46, 0.85); padding: 1em 2em; border-radius: 8px; z-index: 10; border: 1px solid rgba(100, 180, 220, 0.3); text-align: center;">
+  <div id="header-text-container" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8); background: rgba(26, 26, 46, 0.85); padding: 1em 2em; border-radius: 8px; z-index: 10; border: 1px solid rgba(100, 180, 220, 0.3); text-align: center; opacity: 0; transition: all 1.5s cubic-bezier(0.16, 1, 0.3, 1);">
     <h1 style="margin: 0; color: #fff; font-size: 2.1em; font-weight: 300; letter-spacing: 0.08em; white-space: nowrap;">Nate S. Woodward</h1>
     <p style="margin: 0.4em 0 0 0; color: rgba(100, 180, 220, 0.9); font-size: 1.17em; font-weight: 300; letter-spacing: 0.1em;">ML + Theoretical Physics</p>
   </div>
