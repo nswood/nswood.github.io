@@ -93,15 +93,40 @@ class QuantumFoamHeader {
         const baseAmplitude = 60 + Math.random() * 100; // 60-160 range - taller peaks
         const baseSigma = 0.6 + Math.random() * 1.2;    // 0.6-1.8 range (narrow to medium)
 
+        // Choose Z first (depth)
+        const z = this.frontBuffer + Math.random() * (this.gridDepth - this.frontBuffer);
+
+        // Calculate visible X range for this Z
+        // Invert the project function: x = gridWidth/2 + (screenX - centerX) / (cellWidth * spreadFactor)
+        const depthRatio = z / this.gridDepth;
+        const centerX = this.width / 2;
+        const baseWidth = (this.width * 2.0) / this.gridWidth;
+        const widthGrowth = 1 + depthRatio * 4.0;
+        const cellWidth = baseWidth * widthGrowth;
+        const spreadFactor = 1 - depthRatio * 0.78;
+
+        // Visible range in screen coordinates (with small buffer)
+        const minVisibleScreenX = -50;
+        const maxVisibleScreenX = this.width + 50;
+
+        const minX = this.gridWidth / 2 + (minVisibleScreenX - centerX) / (cellWidth * spreadFactor);
+        const maxX = this.gridWidth / 2 + (maxVisibleScreenX - centerX) / (cellWidth * spreadFactor);
+
+        // Clamp to grid bounds
+        const startX = Math.max(0, minX);
+        const endX = Math.min(this.gridWidth, maxX);
+
+        const x = startX + Math.random() * (endX - startX);
+
         this.gaussians.push({
-            x: Math.random() * this.gridWidth,
-            z: this.frontBuffer + Math.random() * (this.gridDepth - this.frontBuffer), // Start after buffer
+            x: x,
+            z: z,
             amplitude: 0,
             maxAmplitude: baseAmplitude,
             sigma: baseSigma,
             phase: 0,
-            speed: 0.002 + Math.random() * 0.003,
-            noiseScale: 0.25 + Math.random() * 0.2  // Increased noise for clearer spikey effect
+            speed: 0.005 + Math.random() * 0.008, // Increased speed (was 0.002-0.005)
+            noiseScale: 0.25 + Math.random() * 0.2
         });
     }
 
