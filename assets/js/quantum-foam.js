@@ -145,40 +145,17 @@ class QuantumFoamHeader {
 
         const isMobile = this.width < 768;
 
-        // More variation in parameters
-        const baseAmplitude = 80 + Math.random() * 140; // 80-220 range
-
-        // Wider peaks on mobile
+        const baseAmplitude = 80 + Math.random() * 140;
         let baseSigma;
         if (isMobile) {
-            baseSigma = 1.5 + Math.random() * 1.5; // 1.5 - 3.0 (Wider)
+            baseSigma = 1.5 + Math.random() * 1.5;
         } else {
-            baseSigma = 0.6 + Math.random() * 1.2; // 0.6 - 1.8 (Original)
+            baseSigma = 0.6 + Math.random() * 1.2;
         }
 
-        // Choose Z first (depth)
+        // Simplified spawning: just pick random positions within grid
         const z = this.frontBuffer + Math.random() * (this.gridDepth - this.frontBuffer);
-
-        // Calculate visible X range for this Z
-        const depthRatio = z / this.gridDepth;
-        const centerX = this.width / 2;
-        const baseWidth = (this.width * 2.0) / this.gridWidth;
-        const widthGrowth = 1 + depthRatio * 4.0;
-        const cellWidth = baseWidth * widthGrowth;
-        const spreadFactor = 1 - depthRatio * 0.78;
-
-        // Visible range in screen coordinates (with small buffer)
-        const minVisibleScreenX = -50;
-        const maxVisibleScreenX = this.width + 50;
-
-        const minX = this.gridWidth / 2 + (minVisibleScreenX - centerX) / (cellWidth * spreadFactor);
-        const maxX = this.gridWidth / 2 + (maxVisibleScreenX - centerX) / (cellWidth * spreadFactor);
-
-        // Clamp to grid bounds
-        const startX = Math.max(0, minX);
-        const endX = Math.min(this.gridWidth, maxX);
-
-        const x = startX + Math.random() * (endX - startX);
+        const x = Math.random() * this.gridWidth;
 
         this.gaussians.push({
             x: x,
@@ -243,31 +220,20 @@ class QuantumFoamHeader {
     project(x, z, height) {
         // Standard linear perspective projection
         const fov = 300;
-        const cameraY = this.height * 0.9; // Raising camera slightly
-        const horizonY = this.height * 0.1; // Vanishing point height
-        const gridSpacingX = this.width / 50; // Dynamic spacing based on width
+        const horizonY = this.height * 0.1;
+        const gridSpacingX = this.width / 30; // Wider spacing (was /50)
         const gridSpacingZ = 20;
 
-        // z index 0 is close, z index Max is far
-        // We want z=0 to be at near plane.
-
-        const depth = 50 + z * gridSpacingZ; // Offset so z=0 isn't at eye position
+        const depth = 50 + z * gridSpacingZ;
         const scale = fov / (fov + depth);
 
         const centerX = this.width / 2;
-
-        // x position relative to center
-        const xOffset = (x - this.gridWidth / 2) * gridSpacingX * 0.5; // 0.5 density factor
+        const xOffset = (x - this.gridWidth / 2) * gridSpacingX * 0.8; // Increased from 0.5
 
         const screenX = centerX + xOffset * scale;
 
-        // y position: floor plane + height offset
-        // Camera is at y=0 relative to horizon? 
-        // Let's say floor is at y = positive (below horizon).
-        // screenY = horizonY + (floorY - height) * scale
-        const floorY = 400; // Arbitrary units below horizon
-
-        const screenY = horizonY + (floorY - height * 12) * scale; // Reduced height scale (was 20)
+        const floorY = 400;
+        const screenY = horizonY + (floorY - height * 8) * scale; // Reduced from 12
 
         return { x: screenX, y: screenY, depthRatio: z / this.gridDepth };
     }
@@ -383,9 +349,9 @@ class QuantumFoamHeader {
         this.state = AnimationState.INTRO_APPROACH;
 
         const isMobile = this.width < 768;
-        const amplitude = isMobile ? 180 : 380;
-        const sigma = isMobile ? 3.5 : 4.5;
-        const z = this.gridDepth * 0.4;
+        const amplitude = isMobile ? 180 : 500; // Increased from 380
+        const sigma = isMobile ? 3.5 : 6.0; // Increased from 4.5
+        const z = this.gridDepth * 0.35; // Moved closer (was 0.4)
 
         const leftBlob = {
             x: this.gridWidth * 0.15,
