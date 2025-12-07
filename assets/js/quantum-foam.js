@@ -8,7 +8,8 @@ const AnimationState = {
     INTRO_APPROACH: 0,
     INTRO_MERGE: 1,
     INTRO_REVEAL: 2,
-    NORMAL: 3
+    INTRO_DELAY: 3,
+    NORMAL: 4
 };
 
 class QuantumFoamHeader {
@@ -34,7 +35,8 @@ class QuantumFoamHeader {
 
 
         this.state = AnimationState.INTRO_APPROACH;
-        this.introGaussians = []; // specific reference to hero blobs
+        this.introGaussians = [];
+        this.delayFrames = 0; // Frame counter for INTRO_DELAY // specific reference to hero blobs
 
         this.init();
     }
@@ -389,7 +391,7 @@ class QuantumFoamHeader {
         }
 
         if (this.state === AnimationState.INTRO_APPROACH) {
-            const approachSpeed = (this.gridWidth * 0.005);
+            const approachSpeed = (this.gridWidth * 0.0025); // Reduced from 0.005 (50% slower)
             if (left.x < left.targetX) left.x += approachSpeed;
             if (right.x > right.targetX) right.x -= approachSpeed;
 
@@ -403,7 +405,7 @@ class QuantumFoamHeader {
             }
         }
         else if (this.state === AnimationState.INTRO_MERGE) {
-            const mergeSpeed = (this.gridWidth * 0.001);
+            const mergeSpeed = (this.gridWidth * 0.0005); // Reduced from 0.001 (50% slower)
             if (left.x < this.gridWidth * 0.48) left.x += mergeSpeed;
             if (right.x > this.gridWidth * 0.52) right.x -= mergeSpeed;
 
@@ -415,7 +417,15 @@ class QuantumFoamHeader {
         else if (this.state === AnimationState.INTRO_REVEAL) {
             if (left.phase === 0) { left.phase = 1; left.amplitude = left.maxAmplitude; }
             if (right.phase === 0) { right.phase = 1; right.amplitude = right.maxAmplitude; }
-            this.state = AnimationState.NORMAL;
+            this.state = AnimationState.INTRO_DELAY;
+            this.delayFrames = 0;
+        }
+        else if (this.state === AnimationState.INTRO_DELAY) {
+            this.delayFrames++;
+            // Wait ~2.5 seconds (150 frames at 60fps)
+            if (this.delayFrames >= 150) {
+                this.state = AnimationState.NORMAL;
+            }
         }
 
         if (this.state !== AnimationState.NORMAL) {
