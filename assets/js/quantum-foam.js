@@ -150,8 +150,8 @@ class QuantumFoamHeader {
         const y = baseY + (horizonY - baseY) * depthRatio;
 
         const centerX = this.width / 2;
-        const cellWidth = (this.width * 2.0) / this.gridWidth; // 2x width to extend well past edges
-        const spreadFactor = 1 - depthRatio * 0.78;
+        const cellWidth = (this.width * 2.5) / this.gridWidth; // 2.5x width for full coverage
+        const spreadFactor = 1 - depthRatio * 0.55; // Less convergence to keep grid wide at horizon
         const screenX = centerX + (x - this.gridWidth / 2) * cellWidth * spreadFactor;
 
         const heightScale = 1 - depthRatio * 0.88;
