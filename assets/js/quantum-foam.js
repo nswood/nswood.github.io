@@ -15,13 +15,13 @@ class QuantumFoamHeader {
         this.height = 0;
 
         // 3D Grid settings - higher resolution
-        this.gridWidth = 200;  // Even higher resolution
-        this.gridDepth = 35;   // More rows going into distance
-        this.frontBuffer = 5;  // No gaussians in first 3 rows
+        this.gridWidth = 400;  // Doubled resolution
+        this.gridDepth = 70;   // Doubled depth
+        this.frontBuffer = 10;  // Scaled buffer
         this.heights = [];
         this.noise = [];       // Random noise for spikey effect
         this.gaussians = [];
-        this.maxGaussians = 50; // More concurrent waves
+        this.maxGaussians = 50; // Keep high count
         this.animationId = null;
 
         this.init();
@@ -90,7 +90,7 @@ class QuantumFoamHeader {
         if (this.gaussians.length >= this.maxGaussians) return;
 
         // More variation in parameters
-        const baseAmplitude = 60 + Math.random() * 100; // 60-160 range - taller peaks
+        const baseAmplitude = 80 + Math.random() * 140; // 80-220 range - much taller peaks
         const baseSigma = 0.6 + Math.random() * 1.2;    // 0.6-1.8 range (narrow to medium)
 
         // Choose Z first (depth)
