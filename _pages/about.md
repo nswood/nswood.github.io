@@ -30,7 +30,7 @@ redirect_from:
       <a href="https://github.com/nswood"><i class="fab fa-fw fa-github"></i> GitHub</a>
       <a href="https://scholar.google.com/citations?user=4nDrH1cAAAAJ&hl=en"><i class="ai ai-google-scholar"></i> Scholar</a>
       <a href="https://www.linkedin.com/in/nswoodward"><i class="fab fa-fw fa-linkedin"></i> LinkedIn</a>
-      <a href="https://orcid.org/0000-0002-8051-7397"><i class="ai ai-orcid"></i> ORCID</a>
+
     </div>
   </div>
 </div>

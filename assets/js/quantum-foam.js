@@ -241,24 +241,35 @@ class QuantumFoamHeader {
     }
 
     project(x, z, height) {
-        const horizonY = this.height * 0.08;
-        const baseY = this.height * 1.15;
+        // Standard linear perspective projection
+        const fov = 300;
+        const cameraY = this.height * 0.9; // Raising camera slightly
+        const horizonY = this.height * 0.1; // Vanishing point height
+        const gridSpacingX = this.width / 50; // Dynamic spacing based on width
+        const gridSpacingZ = 20;
 
-        const depthRatio = z / this.gridDepth;
-        const y = baseY + (horizonY - baseY) * depthRatio;
+        // z index 0 is close, z index Max is far
+        // We want z=0 to be at near plane.
+
+        const depth = 50 + z * gridSpacingZ; // Offset so z=0 isn't at eye position
+        const scale = fov / (fov + depth);
 
         const centerX = this.width / 2;
-        // Aggressively grow width with depth to overcome perspective convergence
-        const baseWidth = (this.width * 2.0) / this.gridWidth;
-        const widthGrowth = 1 + depthRatio * 4.0;
-        const cellWidth = baseWidth * widthGrowth;
-        const spreadFactor = 1 - depthRatio * 0.78;
-        const screenX = centerX + (x - this.gridWidth / 2) * cellWidth * spreadFactor;
 
-        const heightScale = 1 - depthRatio * 0.88;
-        const screenY = y - height * heightScale;
+        // x position relative to center
+        const xOffset = (x - this.gridWidth / 2) * gridSpacingX * 0.5; // 0.5 density factor
 
-        return { x: screenX, y: screenY, depthRatio };
+        const screenX = centerX + xOffset * scale;
+
+        // y position: floor plane + height offset
+        // Camera is at y=0 relative to horizon? 
+        // Let's say floor is at y = positive (below horizon).
+        // screenY = horizonY + (floorY - height) * scale
+        const floorY = 400; // Arbitrary units below horizon
+
+        const screenY = horizonY + (floorY - height * 20) * scale; // Enhance height effect
+
+        return { x: screenX, y: screenY, depthRatio: z / this.gridDepth };
     }
 
     draw() {
@@ -372,8 +383,8 @@ class QuantumFoamHeader {
         this.state = AnimationState.INTRO_APPROACH;
 
         const isMobile = this.width < 768;
-        const amplitude = isMobile ? 180 : 250;
-        const sigma = isMobile ? 3.5 : 2.0;
+        const amplitude = isMobile ? 180 : 380;
+        const sigma = isMobile ? 3.5 : 4.5;
         const z = this.gridDepth * 0.4;
 
         const leftBlob = {
