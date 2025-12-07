@@ -235,7 +235,7 @@ class QuantumFoamHeader {
         const screenX = centerX + xOffset * scale;
 
         const floorY = 400;
-        const screenY = horizonY + (floorY - height * 8) * scale; // Reduced from 12
+        const screenY = horizonY + (floorY - height * 5) * scale; // Reduced from 8 to prevent exceeding cutoff
 
         return { x: screenX, y: screenY, depthRatio: z / this.gridDepth };
     }
