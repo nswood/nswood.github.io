@@ -59,13 +59,6 @@ class QuantumFoamHeader {
 
         // initHeightMap and initNoise are called in resize -> setConfig
 
-        // Reset text container to initial state (fixes refresh bug)
-        const textContainer = document.getElementById('header-text-container');
-        if (textContainer) {
-            textContainer.style.opacity = '0';
-            textContainer.style.transform = 'translate(-50%, -50%) scale(0.1)';
-        }
-
         this.initIntro();
         this.animate();
 
@@ -512,6 +505,20 @@ class QuantumFoamHeader {
 document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('quantum-foam-header');
     if (container) {
+        // Destroy existing instance if present
+        if (window.quantumFoam) {
+            window.quantumFoam.destroy();
+            window.quantumFoam = null;
+        }
+
+        // Reset text container to initial state
+        const textContainer = document.getElementById('header-text-container');
+        if (textContainer) {
+            textContainer.style.opacity = '0';
+            textContainer.style.transform = 'translate(-50%, -50%) scale(0.1)';
+        }
+
+        // Create new instance
         window.quantumFoam = new QuantumFoamHeader('quantum-foam-header');
     }
 });
