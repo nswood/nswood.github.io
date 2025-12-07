@@ -523,10 +523,17 @@ function initQuantumFoam() {
     window.quantumFoam = new QuantumFoamHeader('quantum-foam-header');
 }
 
-// Initialize immediately if DOM is already loaded, otherwise wait
+// Use pageshow event which fires on every page load including from back/forward cache
+window.addEventListener('pageshow', function (event) {
+    // If page was restored from bfcache, reinitialize
+    if (event.persisted) {
+        initQuantumFoam();
+    }
+});
+
+// Also initialize on DOMContentLoaded for fresh loads
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initQuantumFoam);
 } else {
-    // DOM is already loaded (happens on refresh)
     initQuantumFoam();
 }
