@@ -171,6 +171,27 @@ class QuantumFoamHeader {
         });
     }
 
+    spawnBackgroundGaussian() {
+        // Spawn small gaussians in the far field (back of grid)
+        const isMobile = this.width < 768;
+        const baseAmplitude = 40 + Math.random() * 60;
+        const baseSigma = isMobile ? 1.0 : 0.5;
+
+        const z = this.gridDepth * 0.7 + Math.random() * (this.gridDepth * 0.3);
+        const x = Math.random() * this.gridWidth;
+
+        this.gaussians.push({
+            x: x,
+            z: z,
+            amplitude: 0,
+            maxAmplitude: baseAmplitude,
+            sigma: baseSigma,
+            phase: 0,
+            speed: 0.02 + Math.random() * 0.03,
+            noiseScale: 0.15
+        });
+    }
+
     updateGaussians() {
         if (this.state === AnimationState.NORMAL) {
             if (Math.random() < 0.4) {
