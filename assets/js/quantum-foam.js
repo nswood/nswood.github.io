@@ -386,16 +386,10 @@ class QuantumFoamHeader {
         const sigma = isMobile ? 3.5 : 3.5;
         const z = this.gridDepth * 0.35;
 
-        // Calculate grid positions that map to screen edges
-        const gridSpacingX = this.width / 30;
-        const depth = 50 + z * 20;
-        const scale = 300 / (300 + depth);
-
-        // Calculate x positions for left and right screen edges
-        const edgeOffset = this.width / 2 / (gridSpacingX * 0.8 * scale);
-        const leftX = this.gridWidth / 2 - edgeOffset;
-        const rightX = this.gridWidth / 2 + edgeOffset;
+        // Use simple grid positions for edges
         const centerX = this.gridWidth / 2;
+        const leftX = 5; // Near left edge of grid
+        const rightX = this.gridWidth - 5; // Near right edge of grid
 
         const leftBlob = {
             x: leftX,
@@ -405,7 +399,7 @@ class QuantumFoamHeader {
             sigma: sigma,
             phase: 0,
             speed: 0.02,
-            targetX: centerX - 10, // Slightly left of center
+            targetX: centerX - 10,
             noiseScale: 0.2
         };
 
@@ -417,7 +411,7 @@ class QuantumFoamHeader {
             sigma: sigma,
             phase: 0,
             speed: 0.02,
-            targetX: centerX + 10, // Slightly right of center
+            targetX: centerX + 10,
             noiseScale: 0.2
         };
 
