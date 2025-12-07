@@ -7,7 +7,11 @@ redirect_from:
   - /about.html
 ---
 
-<div id="quantum-foam-header" style="width: 100%; height: 200px; margin-bottom: 1.5em; border-radius: 8px; overflow: hidden;"></div>
+<div id="quantum-foam-header" style="position: relative; width: 100%; height: 250px; margin-bottom: 1.5em; border-radius: 8px; overflow: hidden;">
+  <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.75); padding: 1em 2em; border-radius: 8px; z-index: 10;">
+    <h1 style="margin: 0; color: #fff; font-size: 2.5em; font-weight: 300; letter-spacing: 0.05em;">Nate S. Woodward</h1>
+  </div>
+</div>
 <script src="/assets/js/quantum-foam.js"></script>
 
 I am a PhD student at the University of Wisconsin–Madison, where I develop machine learning techniques for theoretical physics. My current research focuses on improving LLM reasoning for theoretical physics.
