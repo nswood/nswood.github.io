@@ -23,7 +23,8 @@ redirect_from:
     <img src="/images/8B550177-F22B-488C-8244-24DA3DFCCC7A_1_105_c.jpeg" alt="Nate S. Woodward" style="width: 140px; border-radius: 50%; border: 2px solid rgba(100, 180, 220, 0.4);">
   </div>
   <div style="text-align: left;">
-    <p style="margin: 0 0 0.8em 0; font-size: 1.1em; font-weight: 500;">PhD @ UW-Madison, MIT '25 Physics + Math</p>
+    <p style="margin: 0 0 0.3em 0; font-size: 1.1em; font-weight: 500;">PhD Student @ UW-Madison</p>
+    <p style="margin: 0 0 0.8em 0; font-size: 0.95em; color: rgba(255,255,255,0.7);">MIT '25 Physics + Math</p>
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.4em 2em; font-size: 0.95em;">
       <a href="mailto:nwoodward2@wisc.edu"><i class="fas fa-fw fa-envelope"></i> Email</a>
       <a href="https://github.com/nswood"><i class="fab fa-fw fa-github"></i> GitHub</a>
