@@ -506,11 +506,17 @@ function initQuantumFoam() {
     const container = document.getElementById('quantum-foam-header');
     if (!container) return;
 
-    // Destroy existing instance if present
-    if (window.quantumFoam) {
-        window.quantumFoam.destroy();
-        window.quantumFoam = null;
+    // Remove any existing canvas from the container
+    const existingCanvas = container.querySelector('canvas');
+    if (existingCanvas) {
+        existingCanvas.remove();
     }
+
+    // Cancel any existing animation
+    if (window.quantumFoam && window.quantumFoam.animationId) {
+        cancelAnimationFrame(window.quantumFoam.animationId);
+    }
+    window.quantumFoam = null;
 
     // Reset text container to initial state
     const textContainer = document.getElementById('header-text-container');
@@ -523,17 +529,19 @@ function initQuantumFoam() {
     window.quantumFoam = new QuantumFoamHeader('quantum-foam-header');
 }
 
-// Use pageshow event which fires on every page load including from back/forward cache
-window.addEventListener('pageshow', function (event) {
-    // If page was restored from bfcache, reinitialize
-    if (event.persisted) {
-        initQuantumFoam();
+// Initialize as soon as possible
+(function () {
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        // DOM is ready, init immediately
+        setTimeout(initQuantumFoam, 0);
+    } else {
+        document.addEventListener('DOMContentLoaded', initQuantumFoam);
     }
-});
 
-// Also initialize on DOMContentLoaded for fresh loads
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initQuantumFoam);
-} else {
-    initQuantumFoam();
-}
+    // Also reinit on pageshow (bfcache)
+    window.addEventListener('pageshow', function (e) {
+        if (e.persisted) {
+            initQuantumFoam();
+        }
+    });
+})();
