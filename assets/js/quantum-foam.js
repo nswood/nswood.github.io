@@ -428,7 +428,7 @@ class QuantumFoamHeader {
         }
 
         if (this.state === AnimationState.INTRO_APPROACH) {
-            const approachSpeed = (this.gridWidth * 0.0025); // Reduced from 0.005 (50% slower)
+            const approachSpeed = (this.gridWidth * 0.003); // Increased from 0.0025
             if (left.x < left.targetX) left.x += approachSpeed;
             if (right.x > right.targetX) right.x -= approachSpeed;
 
@@ -437,16 +437,21 @@ class QuantumFoamHeader {
                 this.spawnIntroParticle(right.x, right.z);
             }
 
-            if (right.x - left.x < (this.gridWidth * 0.12)) {
+            // Check if both have reached their targets
+            if (left.x >= left.targetX && right.x <= right.targetX) {
                 this.state = AnimationState.INTRO_MERGE;
             }
         }
         else if (this.state === AnimationState.INTRO_MERGE) {
-            const mergeSpeed = (this.gridWidth * 0.0005); // Reduced from 0.001 (50% slower)
-            if (left.x < this.gridWidth * 0.48) left.x += mergeSpeed;
-            if (right.x > this.gridWidth * 0.52) right.x -= mergeSpeed;
+            // Allow them to merge a bit
+            const mergeSpeed = (this.gridWidth * 0.002); // Increased from 0.0005
+            const finalTarget = this.gridWidth / 2;
 
-            if (right.x - left.x < (this.gridWidth * 0.06)) {
+            if (left.x < finalTarget) left.x += mergeSpeed;
+            if (right.x > finalTarget) right.x -= mergeSpeed;
+
+            // Check if they're close enough
+            if (Math.abs(right.x - left.x) < 5) {
                 this.state = AnimationState.INTRO_REVEAL;
                 this.revealContent();
             }
