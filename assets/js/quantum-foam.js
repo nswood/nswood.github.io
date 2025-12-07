@@ -17,11 +17,11 @@ class QuantumFoamHeader {
         // 3D Grid settings - higher resolution
         this.gridWidth = 200;  // Even higher resolution
         this.gridDepth = 35;   // More rows going into distance
-        this.frontBuffer = 3;  // No gaussians in first 3 rows
+        this.frontBuffer = 5;  // No gaussians in first 3 rows
         this.heights = [];
         this.noise = [];       // Random noise for spikey effect
         this.gaussians = [];
-        this.maxGaussians = 15; // More concurrent waves
+        this.maxGaussians = 30; // More concurrent waves
         this.animationId = null;
 
         this.init();
