@@ -178,6 +178,10 @@ class QuantumFoamHeader {
             }
         } else {
             this.updateIntro();
+            // Add subtle far-field fluctuations during intro
+            if (Math.random() < 0.1) {
+                this.spawnBackgroundGaussian();
+            }
         }
 
         for (let i = this.gaussians.length - 1; i >= 0; i--) {
@@ -351,9 +355,9 @@ class QuantumFoamHeader {
         this.state = AnimationState.INTRO_APPROACH;
 
         const isMobile = this.width < 768;
-        const amplitude = isMobile ? 180 : 500; // Increased from 380
-        const sigma = isMobile ? 3.5 : 6.0; // Increased from 4.5
-        const z = this.gridDepth * 0.35; // Moved closer (was 0.4)
+        const amplitude = isMobile ? 180 : 250; // Reduced from 500
+        const sigma = isMobile ? 3.5 : 3.5; // Reduced from 6.0
+        const z = this.gridDepth * 0.35;
 
         const leftBlob = {
             x: this.gridWidth * 0.15,
