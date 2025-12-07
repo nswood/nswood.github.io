@@ -411,108 +411,100 @@ class QuantumFoamHeader {
             sigma: sigma,
             phase: 0,
             speed: 0.02,
-            targetX: this.gridWidth * 0.45,
-            noiseScale: 0.2
-        };
-
-        const rightBlob = {
-            x: this.gridWidth * 0.85,
-            z: z,
-            amplitude: 0,
-            maxAmplitude: amplitude,
-            sigma: sigma,
-            phase: 0,
-            speed: 0.02,
             targetX: centerX + 10, // Slightly right of center
             noiseScale: 0.2
         };
 
         this.introGaussians = [leftBlob, rightBlob];
-        this.gaussians = [leftBlob, rightBlob];
+        noiseScale: 0.2
+    };
+
+        this.introGaussians = [leftBlob, rightBlob];
+this.gaussians = [leftBlob, rightBlob];
     }
 
-    updateIntro() {
-        const [left, right] = this.introGaussians;
-        if (!left || !right) {
+updateIntro() {
+    const [left, right] = this.introGaussians;
+    if (!left || !right) {
+        this.state = AnimationState.NORMAL;
+        return;
+    }
+
+    if (this.state === AnimationState.INTRO_APPROACH) {
+        const approachSpeed = (this.gridWidth * 0.0025); // Reduced from 0.005 (50% slower)
+        if (left.x < left.targetX) left.x += approachSpeed;
+        if (right.x > right.targetX) right.x -= approachSpeed;
+
+        if (Math.random() < 0.3) {
+            this.spawnIntroParticle(left.x, left.z);
+            this.spawnIntroParticle(right.x, right.z);
+        }
+
+        if (right.x - left.x < (this.gridWidth * 0.12)) {
+            this.state = AnimationState.INTRO_MERGE;
+        }
+    }
+    else if (this.state === AnimationState.INTRO_MERGE) {
+        const mergeSpeed = (this.gridWidth * 0.0005); // Reduced from 0.001 (50% slower)
+        if (left.x < this.gridWidth * 0.48) left.x += mergeSpeed;
+        if (right.x > this.gridWidth * 0.52) right.x -= mergeSpeed;
+
+        if (right.x - left.x < (this.gridWidth * 0.06)) {
+            this.state = AnimationState.INTRO_REVEAL;
+            this.revealContent();
+        }
+    }
+    else if (this.state === AnimationState.INTRO_REVEAL) {
+        if (left.phase === 0) { left.phase = 1; left.amplitude = left.maxAmplitude; }
+        if (right.phase === 0) { right.phase = 1; right.amplitude = right.maxAmplitude; }
+        this.state = AnimationState.INTRO_DELAY;
+        this.delayFrames = 0;
+    }
+    else if (this.state === AnimationState.INTRO_DELAY) {
+        this.delayFrames++;
+        // Wait ~2.5 seconds (150 frames at 60fps)
+        if (this.delayFrames >= 150) {
             this.state = AnimationState.NORMAL;
-            return;
-        }
-
-        if (this.state === AnimationState.INTRO_APPROACH) {
-            const approachSpeed = (this.gridWidth * 0.0025); // Reduced from 0.005 (50% slower)
-            if (left.x < left.targetX) left.x += approachSpeed;
-            if (right.x > right.targetX) right.x -= approachSpeed;
-
-            if (Math.random() < 0.3) {
-                this.spawnIntroParticle(left.x, left.z);
-                this.spawnIntroParticle(right.x, right.z);
-            }
-
-            if (right.x - left.x < (this.gridWidth * 0.12)) {
-                this.state = AnimationState.INTRO_MERGE;
-            }
-        }
-        else if (this.state === AnimationState.INTRO_MERGE) {
-            const mergeSpeed = (this.gridWidth * 0.0005); // Reduced from 0.001 (50% slower)
-            if (left.x < this.gridWidth * 0.48) left.x += mergeSpeed;
-            if (right.x > this.gridWidth * 0.52) right.x -= mergeSpeed;
-
-            if (right.x - left.x < (this.gridWidth * 0.06)) {
-                this.state = AnimationState.INTRO_REVEAL;
-                this.revealContent();
-            }
-        }
-        else if (this.state === AnimationState.INTRO_REVEAL) {
-            if (left.phase === 0) { left.phase = 1; left.amplitude = left.maxAmplitude; }
-            if (right.phase === 0) { right.phase = 1; right.amplitude = right.maxAmplitude; }
-            this.state = AnimationState.INTRO_DELAY;
-            this.delayFrames = 0;
-        }
-        else if (this.state === AnimationState.INTRO_DELAY) {
-            this.delayFrames++;
-            // Wait ~2.5 seconds (150 frames at 60fps)
-            if (this.delayFrames >= 150) {
-                this.state = AnimationState.NORMAL;
-            }
-        }
-
-        if (this.state !== AnimationState.NORMAL) {
-            left.phase = 0;
-            right.phase = 0;
-            if (left.amplitude >= left.maxAmplitude) left.amplitude = left.maxAmplitude;
-            if (right.amplitude >= right.maxAmplitude) right.amplitude = right.maxAmplitude;
         }
     }
 
-    spawnIntroParticle(x, z) {
-        const particle = {
-            x: x + (Math.random() - 0.5) * 5,
-            z: z + (Math.random() - 0.5) * 5,
-            amplitude: 0,
-            maxAmplitude: 40 + Math.random() * 40,
-            sigma: 0.5 + Math.random() * 0.5,
-            phase: 0,
-            speed: 0.04 + Math.random() * 0.04,
-            noiseScale: 0.2
-        };
-        this.gaussians.push(particle);
+    if (this.state !== AnimationState.NORMAL) {
+        left.phase = 0;
+        right.phase = 0;
+        if (left.amplitude >= left.maxAmplitude) left.amplitude = left.maxAmplitude;
+        if (right.amplitude >= right.maxAmplitude) right.amplitude = right.maxAmplitude;
     }
+}
 
-    revealContent() {
-        const container = document.getElementById('header-text-container');
-        if (container) {
-            container.style.opacity = '1';
-            container.style.transform = 'translate(-50%, -50%) scale(1)';
-        }
+spawnIntroParticle(x, z) {
+    const particle = {
+        x: x + (Math.random() - 0.5) * 5,
+        z: z + (Math.random() - 0.5) * 5,
+        amplitude: 0,
+        maxAmplitude: 40 + Math.random() * 40,
+        sigma: 0.5 + Math.random() * 0.5,
+        phase: 0,
+        speed: 0.04 + Math.random() * 0.04,
+        noiseScale: 0.2
+    };
+    this.gaussians.push(particle);
+}
+
+revealContent() {
+    const container = document.getElementById('header-text-container');
+    if (container) {
+        container.style.opacity = '1';
+        container.style.transform = 'translate(-50%, -50%) scale(1)';
     }
+}
 
-    destroy() {
+destroy() {
 
-        if (this.animationId) cancelAnimationFrame(this.animationId);
-        if (this.canvas && this.canvas.parentNode) {
-            this.canvas.parentNode.removeChild(this.canvas);
-        }
+    if (this.animationId) cancelAnimationFrame(this.animationId);
+    if (this.canvas && this.canvas.parentNode) {
+        this.canvas.parentNode.removeChild(this.canvas);
     }
+}
 }
 
 document.addEventListener('DOMContentLoaded', () => {
