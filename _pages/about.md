@@ -16,12 +16,12 @@ redirect_from:
 </div>
 <script src="/assets/js/quantum-foam.js"></script>
 
-<div style="max-width: 1000px; margin: 2em auto; padding: 0 2em;">
-<div style="display: flex; align-items: flex-start; gap: 2em; margin-bottom: 2em; flex-wrap: wrap;">
+<div style="max-width: 900px; margin: 2em auto; padding: 0 3em;">
+<div style="display: flex; align-items: flex-start; gap: 2em; margin-bottom: 2em; flex-wrap: wrap; justify-content: center;">
   <div style="flex-shrink: 0;">
     <img src="/images/8B550177-F22B-488C-8244-24DA3DFCCC7A_1_105_c.jpeg" alt="Nate S. Woodward" style="width: 150px; border-radius: 50%; border: 2px solid var(--global-border-color);">
   </div>
-  <div style="flex: 1; min-width: 250px;">
+  <div style="flex: 1; min-width: 280px; max-width: 500px;">
     <p style="margin-top: 0;"><strong>ML & Theoretical Physics PhD student at UW - Madison, MIT Math & Physics '25</strong></p>
     <p style="margin: 0.3em 0;"><i class="fas fa-fw fa-location-dot"></i> Madison, WI</p>
     <p style="margin: 0.3em 0;"><i class="fas fa-fw fa-building-columns"></i> UW - Madison</p>
