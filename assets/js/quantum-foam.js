@@ -214,7 +214,11 @@ class QuantumFoamHeader {
                     g.phase = 1;
                 }
             } else {
-                g.amplitude -= g.speed * g.maxAmplitude * 0.35;
+                // During intro on mobile, decay 30% faster
+                const isMobile = this.width < 768;
+                const isIntro = this.state !== AnimationState.NORMAL;
+                const decayMultiplier = (isMobile && isIntro) ? 0.455 : 0.35; // 0.35 * 1.3 = 0.455
+                g.amplitude -= g.speed * g.maxAmplitude * decayMultiplier;
                 if (g.amplitude <= 0) {
                     this.gaussians.splice(i, 1);
                 }
@@ -381,8 +385,9 @@ class QuantumFoamHeader {
 
         // Use simple grid positions for edges
         const centerX = this.gridWidth / 2;
-        const leftX = 5; // Near left edge of grid
-        const rightX = this.gridWidth - 5; // Near right edge of grid
+        // On desktop, spawn further out so they appear at screen edges
+        const leftX = isMobile ? 5 : -20; // Beyond left edge of grid for desktop
+        const rightX = isMobile ? this.gridWidth - 5 : this.gridWidth + 20; // Beyond right edge for desktop
 
         const leftBlob = {
             x: leftX,
