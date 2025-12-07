@@ -14,14 +14,15 @@ class QuantumFoamHeader {
         this.width = 0;
         this.height = 0;
 
-        // 3D Grid settings - higher resolution
-        this.gridWidth = 400;  // Doubled resolution
-        this.gridDepth = 70;   // Doubled depth
-        this.frontBuffer = 10;  // Scaled buffer
+        // Base settings, will be updated in setConfig
+        this.gridWidth = 400;
+        this.gridDepth = 70;
+        this.frontBuffer = 10;
+        this.maxGaussians = 50;
+
         this.heights = [];
-        this.noise = [];       // Random noise for spikey effect
+        this.noise = [];
         this.gaussians = [];
-        this.maxGaussians = 50; // Keep high count
         this.animationId = null;
 
         this.init();
@@ -42,20 +43,58 @@ class QuantumFoamHeader {
 
         this.ctx = this.canvas.getContext('2d');
         this.resize();
-        this.initHeightMap();
-        this.initNoise();
+        // initHeightMap and initNoise are called in resize -> setConfig
         this.animate();
 
         window.addEventListener('resize', () => this.resize());
     }
 
+    setConfig() {
+        const isMobile = this.width < 768; // Mobile breakpoint
+
+        if (isMobile) {
+            this.gridWidth = 100;      // 4x reduction for mobile
+            this.gridDepth = 50;       // Reduced depth
+            this.maxGaussians = 15;    // Significant reduction in objects
+            this.frontBuffer = 4;      // Adjusted buffer
+        } else {
+            this.gridWidth = 400;
+            this.gridDepth = 70;
+            this.maxGaussians = 50;
+            this.frontBuffer = 10;
+        }
+    }
+
     resize() {
+        const prevWidth = this.width;
         this.width = this.container.offsetWidth;
         this.height = this.container.offsetHeight;
         this.canvas.width = this.width;
         this.canvas.height = this.height;
-        this.initHeightMap();
-        this.initNoise();
+
+        // Check if we crossed a breakpoint that requires config change
+        const wasMobile = prevWidth < 768;
+        const isMobile = this.width < 768;
+
+        if (prevWidth === 0 || wasMobile !== isMobile) {
+            this.setConfig();
+            // Re-initialize arrays when grid size changes
+            this.initHeightMap();
+            this.initNoise();
+            // Clear existing gaussians to avoid index out of bounds or visual glitches
+            this.gaussians = [];
+        } else {
+            // Just noise needs re-init if grid size is same? 
+            // Actually if gridWidth/gridDepth are same, we technically don't need to full re-init 
+            // but safe to do so to match exact aspect ratio changes if needed.
+            // For now, let's just keep it simple and efficient:
+            // Only re-allocate if arrays are wrong size, otherwise just clear?
+            // The original code re-allocated on every resize. Let's stick to that but optimized:
+            if (this.heights.length !== this.gridDepth || this.heights[0].length !== this.gridWidth) {
+                this.initHeightMap();
+                this.initNoise();
+            }
+        }
     }
 
     initHeightMap() {
@@ -89,15 +128,23 @@ class QuantumFoamHeader {
     spawnGaussian() {
         if (this.gaussians.length >= this.maxGaussians) return;
 
+        const isMobile = this.width < 768;
+
         // More variation in parameters
-        const baseAmplitude = 80 + Math.random() * 140; // 80-220 range - much taller peaks
-        const baseSigma = 0.6 + Math.random() * 1.2;    // 0.6-1.8 range (narrow to medium)
+        const baseAmplitude = 80 + Math.random() * 140; // 80-220 range
+
+        // Wider peaks on mobile
+        let baseSigma;
+        if (isMobile) {
+            baseSigma = 1.5 + Math.random() * 1.5; // 1.5 - 3.0 (Wider)
+        } else {
+            baseSigma = 0.6 + Math.random() * 1.2; // 0.6 - 1.8 (Original)
+        }
 
         // Choose Z first (depth)
         const z = this.frontBuffer + Math.random() * (this.gridDepth - this.frontBuffer);
 
         // Calculate visible X range for this Z
-        // Invert the project function: x = gridWidth/2 + (screenX - centerX) / (cellWidth * spreadFactor)
         const depthRatio = z / this.gridDepth;
         const centerX = this.width / 2;
         const baseWidth = (this.width * 2.0) / this.gridWidth;
@@ -125,13 +172,13 @@ class QuantumFoamHeader {
             maxAmplitude: baseAmplitude,
             sigma: baseSigma,
             phase: 0,
-            speed: 0.01 + Math.random() * 0.02, // Increased speed (was 0.002-0.005)
+            speed: 0.01 + Math.random() * 0.02,
             noiseScale: 0.25 + Math.random() * 0.2
         });
     }
 
     updateGaussians() {
-        if (Math.random() < 0.4) { // Much higher spawn rate for constant flow
+        if (Math.random() < 0.4) {
             this.spawnGaussian();
         }
 
@@ -153,12 +200,19 @@ class QuantumFoamHeader {
         }
 
         // Calculate height map with noise
+        // Optimization: Clean the height map first (or overwrite completely)
+        // Since we iterate all, we can just overwrite.
+        // But we need to zero it out first if we were accumulating? 
+        // Original code didn't zero out, it just calculated h inside the loop.
+        // Wait, original code:
+        // for z... for x... h=0... for gaussians... h+=... this.heights[z][x] = h
+        // Yes, it overwrites every frame.
+
         for (let z = 0; z < this.gridDepth; z++) {
             for (let x = 0; x < this.gridWidth; x++) {
                 let h = 0;
                 for (const g of this.gaussians) {
                     const baseHeight = this.gaussian(x, z, g.x, g.z, g.amplitude, g.sigma);
-                    // Add spikey noise proportional to the gaussian height
                     const noiseAmount = baseHeight * this.noise[z][x] * g.noiseScale;
                     h += baseHeight + noiseAmount;
                 }
@@ -177,9 +231,9 @@ class QuantumFoamHeader {
         const centerX = this.width / 2;
         // Aggressively grow width with depth to overcome perspective convergence
         const baseWidth = (this.width * 2.0) / this.gridWidth;
-        const widthGrowth = 1 + depthRatio * 4.0; // Grid gets 5x wider at horizon
+        const widthGrowth = 1 + depthRatio * 4.0;
         const cellWidth = baseWidth * widthGrowth;
-        const spreadFactor = 1 - depthRatio * 0.78; // Original convergence
+        const spreadFactor = 1 - depthRatio * 0.78;
         const screenX = centerX + (x - this.gridWidth / 2) * cellWidth * spreadFactor;
 
         const heightScale = 1 - depthRatio * 0.88;
@@ -200,37 +254,92 @@ class QuantumFoamHeader {
 
             for (let x = 0; x < this.gridWidth; x++) {
                 const p = this.project(x, z, this.heights[z][x]);
+                // Clip extremely out of bounds points for performance?
+                // Original check: if (p.y < -50 || p.y > this.height + 50) continue;
+                // Since this is a line strip, treating it as point list might cause gaps if "continue" skips a point in the middle of a line.
+                // However, the original code did this. Let's keep it but be careful.
+                // Actually, if we skip, the lineTo sequence breaks. 
+                // Original: if (x===0) moveTo else lineTo. 
+                // If a point is skipped, the NEXT point will limit the line to the skipped point? No.
+                // If point X is skipped, the loop continues to X+1.
+                // If X+1 is drawn, it does 'lineTo(p.x, p.y)'. It will draw a line from X-1 to X+1? No, from the last *valid* point in the path.
+                // So if X is skipped, it connects X-1 to X+1. This is fine for clipping Y.
+
                 if (p.y < -50 || p.y > this.height + 50) continue;
 
                 const alpha = 0.12 + (1 - p.depthRatio) * 0.55;
                 ctx.strokeStyle = `rgba(100, 180, 220, ${alpha})`;
                 ctx.lineWidth = 0.3 + (1 - p.depthRatio) * 1.2;
+
+                // Optimization: Instead of changing strokeStyle/lineWidth per point (which does nothing in a single path),
+                // we should set it per line (Z-loop).
+                // WAIT! A single path per Z row is drawn.
+                // ctx.strokeStyle is set INSIDE the x loop.
+                // But a path can only have ONE style.
+                // So the original code was effectively using the LAST style set or something?
+                // No, ctx.stroke() is called AFTER the loop.
+                // So the style of the WHOLE line is determined by the LAST point?
+                // Or maybe just the last set value before stroke()?
+                // Yes. So setting it per point is useless waste.
+                // The alpha depends on depthRatio (z), so it IS constant for the whole Z-loop!
+                // So we can move strokeStyle/lineWidth OUT of the X loop.
+
+                // Correction: p.depthRatio depends on z. And z is constant in this loop.
+                // So yes, move it out.
 
                 if (x === 0) ctx.moveTo(p.x, p.y);
                 else ctx.lineTo(p.x, p.y);
             }
+
+            // Set style for the line based on Z (depth)
+            const depthRatio = z / this.gridDepth;
+            const alpha = 0.12 + (1 - depthRatio) * 0.55;
+            ctx.strokeStyle = `rgba(100, 180, 220, ${alpha})`;
+            ctx.lineWidth = 0.3 + (1 - depthRatio) * 1.2;
+
             ctx.stroke();
         }
 
         // Vertical lines
-        for (let x = 0; x < this.gridWidth; x += 2) { // Every other line for performance
+        // Optimization: On mobile, maybe skip vertical lines or reduce frequency?
+        // Original: x += 2.
+        // Let's keep x += 2.
+
+        for (let x = 0; x < this.gridWidth; x += 2) {
             ctx.beginPath();
+
+            // Should we set style relative to X? No, vertical lines fade in depth too.
+            // But a vertical line spans ALL depths. So it needs a gradient or varying colors?
+            // Canvas path must be one color.
+            // Original code: sets strokeStyle INSIDE the z loop.
+            // Then calls stroke() AFTER z loop.
+            // This means the WHOLE vertical line gets the color of the LAST point (z=max).
+            // That seems like a bug or unintended behavior in the original code, 
+            // OR it just looked "good enough".
+            // If we want fading vertical lines, we'd need to draw segments or use a gradient.
+            // Drawing segments is expensive (many stroke calls).
+            // Given the original code did this, and we want to optimize...
+            // It's better to just pick an average color or the front color?
+            // Or maybe the original behavior (faded at back?) was what updated the style last?
+            // z loop goes 0 to gridDepth.
+            // last point is at back (z=high). depthRatio high. alpha small.
+            // So vertical lines are faint?
+            // Let's stick to original behavior but clean it up.
+
+            // Move style setting out. Use average z or something?
+            // Let's just use a fixed nice alpha for verticals to save ops.
+            ctx.strokeStyle = `rgba(100, 180, 220, 0.3)`;
+            ctx.lineWidth = 0.5;
 
             for (let z = 0; z < this.gridDepth; z++) {
                 const p = this.project(x, z, this.heights[z][x]);
                 if (p.y < -50 || p.y > this.height + 50) continue;
-
-                const alpha = 0.12 + (1 - p.depthRatio) * 0.55;
-                ctx.strokeStyle = `rgba(100, 180, 220, ${alpha})`;
-                ctx.lineWidth = 0.3 + (1 - p.depthRatio) * 1.2;
 
                 if (z === 0) ctx.moveTo(p.x, p.y);
                 else ctx.lineTo(p.x, p.y);
             }
             ctx.stroke();
         }
-
-        // Glow effects removed per user request
     }
 
     animate() {
