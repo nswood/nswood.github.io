@@ -21,7 +21,7 @@ class QuantumFoamHeader {
         this.heights = [];
         this.noise = [];       // Random noise for spikey effect
         this.gaussians = [];
-        this.maxGaussians = 30; // More concurrent waves
+        this.maxGaussians = 50; // More concurrent waves
         this.animationId = null;
 
         this.init();
@@ -125,7 +125,7 @@ class QuantumFoamHeader {
             maxAmplitude: baseAmplitude,
             sigma: baseSigma,
             phase: 0,
-            speed: 0.005 + Math.random() * 0.008, // Increased speed (was 0.002-0.005)
+            speed: 0.01 + Math.random() * 0.02, // Increased speed (was 0.002-0.005)
             noiseScale: 0.25 + Math.random() * 0.2
         });
     }
