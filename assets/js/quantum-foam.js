@@ -131,7 +131,7 @@ class QuantumFoamHeader {
     }
 
     updateGaussians() {
-        if (Math.random() < 0.05) { // Increased spawn rate
+        if (Math.random() < 0.4) { // Much higher spawn rate for constant flow
             this.spawnGaussian();
         }
 
