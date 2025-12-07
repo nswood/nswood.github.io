@@ -150,7 +150,7 @@ class QuantumFoamHeader {
         const y = baseY + (horizonY - baseY) * depthRatio;
 
         const centerX = this.width / 2;
-        const cellWidth = (this.width * 1.4) / this.gridWidth; // 1.4x width to extend past edges
+        const cellWidth = (this.width * 2.0) / this.gridWidth; // 2x width to extend well past edges
         const spreadFactor = 1 - depthRatio * 0.78;
         const screenX = centerX + (x - this.gridWidth / 2) * cellWidth * spreadFactor;
 
