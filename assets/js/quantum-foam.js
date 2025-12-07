@@ -230,25 +230,7 @@ class QuantumFoamHeader {
             ctx.stroke();
         }
 
-        // Glow effects
-        for (const g of this.gaussians) {
-            if (g.amplitude > 15) {
-                const p = this.project(g.x, g.z, g.amplitude);
-                if (p.y < -50 || p.y > this.height + 50) continue;
-
-                const glowSize = g.amplitude * (1 - p.depthRatio * 0.6) * 1.2;
-
-                const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, glowSize);
-                gradient.addColorStop(0, `rgba(120, 200, 255, ${0.22 * g.amplitude / g.maxAmplitude})`);
-                gradient.addColorStop(0.5, `rgba(80, 160, 220, ${0.1 * g.amplitude / g.maxAmplitude})`);
-                gradient.addColorStop(1, 'rgba(60, 140, 200, 0)');
-
-                ctx.fillStyle = gradient;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, glowSize, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
+        // Glow effects removed per user request
     }
 
     animate() {
