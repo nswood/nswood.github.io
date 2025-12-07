@@ -15,7 +15,7 @@ class QuantumFoamHeader {
         this.height = 0;
 
         // 3D Grid settings - higher resolution
-        this.gridWidth = 100;  // More columns for higher resolution
+        this.gridWidth = 140;  // Extra columns to extend past viewport edges
         this.gridDepth = 35;   // More rows going into distance
         this.frontBuffer = 3;  // No gaussians in first 3 rows
         this.heights = [];
@@ -150,7 +150,7 @@ class QuantumFoamHeader {
         const y = baseY + (horizonY - baseY) * depthRatio;
 
         const centerX = this.width / 2;
-        const cellWidth = this.width / this.gridWidth;
+        const cellWidth = (this.width * 1.4) / this.gridWidth; // 1.4x width to extend past edges
         const spreadFactor = 1 - depthRatio * 0.78;
         const screenX = centerX + (x - this.gridWidth / 2) * cellWidth * spreadFactor;
 
