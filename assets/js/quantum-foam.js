@@ -54,6 +54,20 @@ class QuantumFoamHeader {
         this.height = this.container.offsetHeight;
         this.canvas.width = this.width;
         this.canvas.height = this.height;
+
+        // Mobile adjustment
+        if (this.width < 768) {
+            this.gridWidth = 100; // Lower res on mobile to prevent clutter
+            this.gridDepth = 30;
+            this.frontBuffer = 4;
+            this.maxGaussians = 20; // Fewer waves on mobile
+        } else {
+            this.gridWidth = 400; // High res on desktop
+            this.gridDepth = 70;
+            this.frontBuffer = 10;
+            this.maxGaussians = 50; // Restore high count
+        }
+
         this.initHeightMap();
         this.initNoise();
     }

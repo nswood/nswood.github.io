@@ -8,24 +8,137 @@ redirect_from:
   - /about.html
 ---
 
-<div id="quantum-foam-header" style="position: relative; width: 100vw; margin-left: calc(-50vw + 50%); height: 300px; margin-bottom: 0; overflow: visible;">
-  <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(26, 26, 46, 0.85); padding: 1em 2em; border-radius: 8px; z-index: 10; border: 1px solid rgba(100, 180, 220, 0.3); text-align: center;">
-    <h1 style="margin: 0; color: #fff; font-size: 2.1em; font-weight: 300; letter-spacing: 0.08em; white-space: nowrap;">Nate S. Woodward</h1>
-    <p style="margin: 0.4em 0 0 0; color: rgba(100, 180, 220, 0.9); font-size: 1.17em; font-weight: 300; letter-spacing: 0.1em;">ML + Theoretical Physics</p>
+<style>
+  /* Base styles */
+  .header-container {
+    position: relative;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    height: 300px;
+    margin-bottom: 0;
+    overflow: visible;
+  }
+  
+  .header-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(26, 26, 46, 0.85);
+    padding: 1em 2em;
+    border-radius: 8px;
+    z-index: 10;
+    border: 1px solid rgba(100, 180, 220, 0.3);
+    text-align: center;
+    width: 90%;
+    max-width: 500px;
+  }
+  
+  .header-title {
+    margin: 0;
+    color: #fff;
+    font-size: 2.1em;
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+  
+  .header-subtitle {
+    margin: 0.4em 0 0 0;
+    color: rgba(100, 180, 220, 0.9);
+    font-size: 1.17em;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+  }
+  
+  .content-container {
+    max-width: 800px;
+    margin: 2.5em auto;
+    padding: 0 2.5em;
+  }
+  
+  .profile-section {
+    display: flex;
+    align-items: center;
+    gap: 2.5em;
+    margin-bottom: 2.5em;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .profile-image {
+    width: 180px;
+    border-radius: 50%;
+    border: 2px solid rgba(100, 180, 220, 0.4);
+  }
+  
+  .profile-links-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4em 2em;
+    font-size: 0.95em;
+  }
+
+  /* Mobile Responsive adjustments */
+  @media (max-width: 768px) {
+    .header-container {
+      height: 250px;
+    }
+    
+    .header-title {
+      font-size: 1.5em;
+      white-space: normal;
+    }
+    
+    .header-subtitle {
+      font-size: 0.9em;
+    }
+    
+    .content-container {
+      padding: 0 1.2em;
+      margin: 1.5em auto;
+    }
+    
+    .profile-section {
+      flex-direction: column;
+      text-align: center;
+      gap: 1.5em;
+    }
+    
+    .profile-image {
+      width: 140px;
+    }
+    
+    .profile-text {
+      text-align: center;
+    }
+    
+    .profile-links-grid {
+      grid-template-columns: 1fr;
+      gap: 0.5em;
+      text-align: center;
+    }
+  }
+</style>
+
+<div id="quantum-foam-header" class="header-container">
+  <div class="header-overlay">
+    <h1 class="header-title">Nate S. Woodward</h1>
+    <p class="header-subtitle">ML + Theoretical Physics</p>
   </div>
 </div>
 <script src="/assets/js/quantum-foam.js"></script>
 
-<div style="max-width: 800px; margin: 2.5em auto; padding: 0 2.5em;">
+<div class="content-container">
 
-<div style="display: flex; align-items: center; gap: 2.5em; margin-bottom: 2.5em; flex-wrap: wrap; justify-content: center;">
+<div class="profile-section">
   <div style="flex-shrink: 0;">
-    <img src="/images/8B550177-F22B-488C-8244-24DA3DFCCC7A_1_105_c.jpeg" alt="Nate S. Woodward" style="width: 180px; border-radius: 50%; border: 2px solid rgba(100, 180, 220, 0.4);">
+    <img src="/images/8B550177-F22B-488C-8244-24DA3DFCCC7A_1_105_c.jpeg" alt="Nate S. Woodward" class="profile-image">
   </div>
-  <div style="text-align: left;">
+  <div class="profile-text" style="text-align: left;">
     <p style="margin: 0 0 0.3em 0; font-size: 1.1em; font-weight: 500;">PhD Student @ UW-Madison</p>
     <p style="margin: 0 0 0.8em 0; font-size: 0.95em; color: rgba(255,255,255,0.7);">MIT '25 Physics + Math</p>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.4em 2em; font-size: 0.95em;">
+    <div class="profile-links-grid">
       <a href="mailto:nwoodward2@wisc.edu"><i class="fas fa-fw fa-envelope"></i> Email</a>
       <a href="https://github.com/nswood"><i class="fab fa-fw fa-github"></i> GitHub</a>
       <a href="https://scholar.google.com/citations?user=4nDrH1cAAAAJ&hl=en"><i class="ai ai-google-scholar"></i> Scholar</a>
