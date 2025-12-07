@@ -28,11 +28,16 @@ class QuantumFoamHeader {
     init() {
         this.canvas = document.createElement('canvas');
         this.canvas.style.cssText = `
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             display: block;
+            z-index: 1;
         `;
-        this.container.appendChild(this.canvas);
+        // Insert canvas as first child so it's behind any overlays
+        this.container.insertBefore(this.canvas, this.container.firstChild);
 
         this.ctx = this.canvas.getContext('2d');
         this.resize();
