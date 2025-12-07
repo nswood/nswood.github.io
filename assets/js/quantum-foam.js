@@ -260,7 +260,7 @@ class QuantumFoamHeader {
         const screenX = centerX + xOffset * scale;
 
         const floorY = 400;
-        const screenY = horizonY + (floorY - height * 5) * scale; // Reduced from 8 to prevent exceeding cutoff
+        const screenY = horizonY + (floorY - height * 3) * scale; // Reduced from 5
 
         return { x: screenX, y: screenY, depthRatio: z / this.gridDepth };
     }
@@ -376,12 +376,35 @@ class QuantumFoamHeader {
         this.state = AnimationState.INTRO_APPROACH;
 
         const isMobile = this.width < 768;
-        const amplitude = isMobile ? 180 : 250; // Reduced from 500
-        const sigma = isMobile ? 3.5 : 3.5; // Reduced from 6.0
+        const amplitude = isMobile ? 180 : 250;
+        const sigma = isMobile ? 3.5 : 3.5;
         const z = this.gridDepth * 0.35;
 
+        // Calculate grid positions that map to screen edges
+        const gridSpacingX = this.width / 30;
+        const depth = 50 + z * 20;
+        const scale = 300 / (300 + depth);
+
+        // Calculate x positions for left and right screen edges
+        const edgeOffset = this.width / 2 / (gridSpacingX * 0.8 * scale);
+        const leftX = this.gridWidth / 2 - edgeOffset;
+        const rightX = this.gridWidth / 2 + edgeOffset;
+        const centerX = this.gridWidth / 2;
+
         const leftBlob = {
-            x: this.gridWidth * 0.15,
+            x: leftX,
+            z: z,
+            amplitude: 0,
+            maxAmplitude: amplitude,
+            sigma: sigma,
+            phase: 0,
+            speed: 0.02,
+            targetX: centerX - 10, // Slightly left of center
+            noiseScale: 0.2
+        };
+
+        const rightBlob = {
+            x: rightX,
             z: z,
             amplitude: 0,
             maxAmplitude: amplitude,
@@ -400,7 +423,7 @@ class QuantumFoamHeader {
             sigma: sigma,
             phase: 0,
             speed: 0.02,
-            targetX: this.gridWidth * 0.55,
+            targetX: centerX + 10, // Slightly right of center
             noiseScale: 0.2
         };
 
