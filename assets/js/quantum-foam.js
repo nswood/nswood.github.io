@@ -89,10 +89,10 @@ class QuantumFoam {
             x: Math.random() * this.gridWidth,
             z: Math.random() * this.gridDepth,
             amplitude: 0,
-            maxAmplitude: 20 + Math.random() * 40,
-            sigma: 1.5 + Math.random() * 2.5,
+            maxAmplitude: 80 + Math.random() * 60,
+            sigma: 2 + Math.random() * 3,
             phase: 0, // 0 = growing, 1 = fading
-            speed: 0.015 + Math.random() * 0.025
+            speed: 0.005 + Math.random() * 0.01
         });
     }
 
