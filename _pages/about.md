@@ -11,6 +11,14 @@ I am a PhD student at the University of Wisconsin–Madison, where I develop mac
 
 I graduated from MIT in 2025 with degrees in Physics and Mathematics. During my undergraduate studies I worked in Professor Phil Harris's group and with the NSF AI Institute for Artificial Intelligence and Fundamental Interactions (IAIFI), building ML tools for high‑energy physics. My experience spans geometric ML for jet physics, detector readout algorithms, and theoretical QFT calculations.
 
+## Recent Posts
+
+{% for post in site.posts limit:3 %}
+  {% if post.title %}
+- [{{ post.title }}]({{ post.url }}) ({{ post.date | date: "%Y-%m-%d" }})
+  {% endif %}
+{% endfor %}
+
 ## Recent Publications
 
 {% comment %}
@@ -20,8 +28,8 @@ I graduated from MIT in 2025 with degrees in Physics and Mathematics. During my 
 {% endcomment %}
 
 {% assign sorted_pubs = site.publications 
-     | sort: "date"    /* oldest→newest */
-     | reverse         /* newest→oldest */ %}
+     | sort: "date"
+     | reverse %}
 
 {% for post in sorted_pubs limit:3 %}
   {% if post.link %}
@@ -35,8 +43,8 @@ I graduated from MIT in 2025 with degrees in Physics and Mathematics. During my 
 
 ## Recent Talks
 {% assign sorted_pubs = site.talks 
-     | sort: "date"    /* oldest→newest */
-     | reverse         /* newest→oldest */ %}
+     | sort: "date"
+     | reverse %}
 
 {% for post in sorted_pubs limit:3 %}
 - [{{ post.title }}]({{ post.url }}) ({{ post.date | date: "%Y" }})

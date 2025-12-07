@@ -8,7 +8,7 @@
 
 # Basic Site Settings
 locale                   : "en-US"
-site_theme               : "default"
+site_theme               : "dark"
 title                    : "Nate S. Woodward"
 title_separator          : "-"
 name                     : &name "Nate Woodward"
@@ -33,7 +33,6 @@ author:
 
   # Academic websites
   academia         : # URL
-  arxiv            : "https://arxiv.org/search/hep-ph?query=Woodward%2C+N&searchtype=author&abstracts=show&order=-announced_date_first&size=50"
   googlescholar    : "https://scholar.google.com/citations?user=4nDrH1cAAAAJ&hl=en"
   impactstory      : # URL
   orcid            : "https://orcid.org/0000-0002-8051-7397"
@@ -228,6 +227,9 @@ collections:
   talks:
     output: true
     permalink: /:collection/:path/
+  unpublished:
+    output: true
+    permalink: /:collection/:path/
 
 
 # These settings control how pages and collections are included in the site
@@ -285,6 +287,17 @@ defaults:
       layout: talk
       author_profile: true
       share: true
+  # _unpublished
+  - scope:
+      path: ""
+      type: unpublished
+    values:
+      layout: single
+      author_profile: true
+      read_time: true
+      comments: true
+      share: true
+      related: true
 
 
 # Sass/SCSS
