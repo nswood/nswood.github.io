@@ -3,7 +3,6 @@ main:
     url: /publications/
   - title: "Talks"
     url: /talks/
-  - title: "CV"
-    url: /cv/
+
   - title: "Blog"
     url: /blog/
