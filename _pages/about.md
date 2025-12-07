@@ -8,8 +8,8 @@ redirect_from:
 ---
 
 <div id="quantum-foam-header" style="position: relative; width: 100%; height: 250px; margin-bottom: 1.5em; border-radius: 8px; overflow: hidden;">
-  <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.75); padding: 1em 2em; border-radius: 8px; z-index: 10;">
-    <h1 style="margin: 0; color: #fff; font-size: 2.5em; font-weight: 300; letter-spacing: 0.05em;">Nate S. Woodward</h1>
+  <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(26, 26, 46, 0.85); padding: 0.8em 1.5em; border-radius: 6px; z-index: 10; border: 1px solid rgba(100, 180, 220, 0.3);">
+    <h1 style="margin: 0; color: #fff; font-size: 1.6em; font-weight: 300; letter-spacing: 0.08em; white-space: nowrap;">Nate S. Woodward</h1>
   </div>
 </div>
 <script src="/assets/js/quantum-foam.js"></script>
