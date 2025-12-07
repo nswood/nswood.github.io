@@ -73,9 +73,9 @@ class QuantumFoamHeader {
             this.maxGaussians = 15;    // Significant reduction in objects
             this.frontBuffer = 4;      // Adjusted buffer
         } else {
-            this.gridWidth = 400;
-            this.gridDepth = 70;
-            this.maxGaussians = 50;
+            this.gridWidth = 150; // Reduced from 400 for smoother look
+            this.gridDepth = 60;  // Slightly reduced depth to match
+            this.maxGaussians = 40;
             this.frontBuffer = 10;
         }
     }
@@ -128,7 +128,7 @@ class QuantumFoamHeader {
         for (let z = 0; z < this.gridDepth; z++) {
             this.noise[z] = [];
             for (let x = 0; x < this.gridWidth; x++) {
-                this.noise[z][x] = (Math.random() - 0.5) * 0.4; // ±20% noise
+                this.noise[z][x] = (Math.random() - 0.5) * 0.2; // Reduced noise (was 0.4)
             }
         }
     }
@@ -267,7 +267,7 @@ class QuantumFoamHeader {
         // screenY = horizonY + (floorY - height) * scale
         const floorY = 400; // Arbitrary units below horizon
 
-        const screenY = horizonY + (floorY - height * 20) * scale; // Enhance height effect
+        const screenY = horizonY + (floorY - height * 12) * scale; // Reduced height scale (was 20)
 
         return { x: screenX, y: screenY, depthRatio: z / this.gridDepth };
     }
