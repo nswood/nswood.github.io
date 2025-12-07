@@ -530,4 +530,3 @@ if (document.readyState === 'loading') {
     // DOM is already loaded (happens on refresh)
     initQuantumFoam();
 }
-```
