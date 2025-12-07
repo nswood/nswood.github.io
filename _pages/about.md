@@ -8,7 +8,7 @@ redirect_from:
   - /about.html
 ---
 
-<div id="quantum-foam-header" style="position: relative; width: 100%; height: 280px; margin-bottom: 1.5em; border-radius: 8px; overflow: hidden;">
+<div id="quantum-foam-header" style="position: relative; width: 100vw; margin-left: calc(-50vw + 50%); height: 280px; margin-bottom: 0; overflow: hidden;">
   <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(26, 26, 46, 0.85); padding: 0.8em 1.5em; border-radius: 6px; z-index: 10; border: 1px solid rgba(100, 180, 220, 0.3); text-align: center;">
     <h1 style="margin: 0; color: #fff; font-size: 1.6em; font-weight: 300; letter-spacing: 0.08em; white-space: nowrap;">Nate S. Woodward</h1>
     <p style="margin: 0.4em 0 0 0; color: rgba(100, 180, 220, 0.9); font-size: 0.9em; font-weight: 300; letter-spacing: 0.1em;">ML + Theoretical Physics</p>
@@ -16,6 +16,7 @@ redirect_from:
 </div>
 <script src="/assets/js/quantum-foam.js"></script>
 
+<div style="max-width: 1000px; margin: 2em auto; padding: 0 2em;">
 <div style="display: flex; align-items: flex-start; gap: 2em; margin-bottom: 2em; flex-wrap: wrap;">
   <div style="flex-shrink: 0;">
     <img src="/images/8B550177-F22B-488C-8244-24DA3DFCCC7A_1_105_c.jpeg" alt="Nate S. Woodward" style="width: 150px; border-radius: 50%; border: 2px solid var(--global-border-color);">
@@ -74,3 +75,5 @@ I graduated from MIT in 2025 with degrees in Physics and Mathematics. During my 
 {% for post in sorted_pubs limit:3 %}
 - [{{ post.title }}]({{ post.url }}) ({{ post.date | date: "%Y" }})
 {% endfor %}
+
+</div>
