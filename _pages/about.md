@@ -7,6 +7,9 @@ redirect_from:
   - /about.html
 ---
 
+<div id="quantum-foam-header" style="width: 100%; height: 200px; margin-bottom: 1.5em; border-radius: 8px; overflow: hidden;"></div>
+<script src="/assets/js/quantum-foam.js"></script>
+
 I am a PhD student at the University of Wisconsin–Madison, where I develop machine learning techniques for theoretical physics. My current research focuses on improving LLM reasoning for theoretical physics.
 
 I graduated from MIT in 2025 with degrees in Physics and Mathematics. During my undergraduate studies I worked in Professor Phil Harris's group and with the NSF AI Institute for Artificial Intelligence and Fundamental Interactions (IAIFI), building ML tools for high‑energy physics. My experience spans geometric ML for jet physics, detector readout algorithms, and theoretical QFT calculations.
