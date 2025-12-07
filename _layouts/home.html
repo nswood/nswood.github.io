@@ -4,15 +4,11 @@ layout: default
 
 {% include base_path %}
 
-<div id="main" role="main" style="max-width: none; padding: 0;">
+<div id="main" role="main" style="max-width: none; padding: 0; margin: 0;">
     <article class="page" itemscope itemtype="http://schema.org/CreativeWork"
-        style="float: none; width: 100%; padding-left: 0;">
-        {% if page.title %}
-        <meta itemprop="headline" content="{{ page.title | markdownify | strip_html | strip_newlines | escape_once }}">
-        {% endif %}
-
-        <div class="page__inner-wrap" style="max-width: none;">
-            <section class="page__content" itemprop="text" style="max-width: 1400px; margin: 0 auto; padding: 0 1em;">
+        style="float: none; width: 100%; padding: 0; margin: 0;">
+        <div class="page__inner-wrap" style="max-width: none; padding: 0; margin: 0;">
+            <section class="page__content" itemprop="text" style="max-width: none; padding: 0; margin: 0;">
                 {{ content }}
             </section>
         </div>
