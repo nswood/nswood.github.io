@@ -8,7 +8,7 @@ redirect_from:
   - /about.html
 ---
 
-<div id="quantum-foam-header" style="position: relative; width: 100vw; margin-left: calc(-50vw + 50%); height: 280px; margin-bottom: 0; overflow: hidden;">
+<div id="quantum-foam-header" style="position: relative; width: 100vw; margin-left: calc(-50vw + 50%); height: 300px; margin-bottom: 0; overflow: visible;">
   <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(26, 26, 46, 0.85); padding: 0.8em 1.5em; border-radius: 6px; z-index: 10; border: 1px solid rgba(100, 180, 220, 0.3); text-align: center;">
     <h1 style="margin: 0; color: #fff; font-size: 1.6em; font-weight: 300; letter-spacing: 0.08em; white-space: nowrap;">Nate S. Woodward</h1>
     <p style="margin: 0.4em 0 0 0; color: rgba(100, 180, 220, 0.9); font-size: 0.9em; font-weight: 300; letter-spacing: 0.1em;">ML + Theoretical Physics</p>
@@ -16,64 +16,56 @@ redirect_from:
 </div>
 <script src="/assets/js/quantum-foam.js"></script>
 
-<div style="max-width: 900px; margin: 2em auto; padding: 0 3em;">
-<div style="display: flex; align-items: flex-start; gap: 2em; margin-bottom: 2em; flex-wrap: wrap; justify-content: center;">
+<div style="max-width: 800px; margin: 2.5em auto; padding: 0 2.5em;">
+
+<div style="display: flex; align-items: center; gap: 2.5em; margin-bottom: 2.5em; flex-wrap: wrap; justify-content: center;">
   <div style="flex-shrink: 0;">
-    <img src="/images/8B550177-F22B-488C-8244-24DA3DFCCC7A_1_105_c.jpeg" alt="Nate S. Woodward" style="width: 150px; border-radius: 50%; border: 2px solid var(--global-border-color);">
+    <img src="/images/8B550177-F22B-488C-8244-24DA3DFCCC7A_1_105_c.jpeg" alt="Nate S. Woodward" style="width: 140px; border-radius: 50%; border: 2px solid rgba(100, 180, 220, 0.4);">
   </div>
-  <div style="flex: 1; min-width: 280px; max-width: 500px;">
-    <p style="margin-top: 0;"><strong>ML & Theoretical Physics PhD student at UW - Madison, MIT Math & Physics '25</strong></p>
-    <p style="margin: 0.3em 0;"><i class="fas fa-fw fa-location-dot"></i> Madison, WI</p>
-    <p style="margin: 0.3em 0;"><i class="fas fa-fw fa-building-columns"></i> UW - Madison</p>
-    <p style="margin: 0.3em 0;"><a href="mailto:nwoodward2@wisc.edu"><i class="fas fa-fw fa-envelope"></i> Email</a></p>
-    <p style="margin: 0.3em 0;"><a href="https://scholar.google.com/citations?user=4nDrH1cAAAAJ&hl=en"><i class="ai ai-google-scholar"></i> Google Scholar</a></p>
-    <p style="margin: 0.3em 0;"><a href="https://orcid.org/0000-0002-8051-7397"><i class="ai ai-orcid"></i> ORCID</a></p>
-    <p style="margin: 0.3em 0;"><a href="https://github.com/nswood"><i class="fab fa-fw fa-github"></i> GitHub</a></p>
-    <p style="margin: 0.3em 0;"><a href="https://www.linkedin.com/in/nswoodward"><i class="fab fa-fw fa-linkedin"></i> LinkedIn</a></p>
+  <div style="text-align: left;">
+    <p style="margin: 0 0 0.8em 0; font-size: 1.1em; font-weight: 500;">PhD @ UW-Madison, MIT '25 Physics + Math</p>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.4em 2em; font-size: 0.95em;">
+      <a href="mailto:nwoodward2@wisc.edu"><i class="fas fa-fw fa-envelope"></i> Email</a>
+      <a href="https://github.com/nswood"><i class="fab fa-fw fa-github"></i> GitHub</a>
+      <a href="https://scholar.google.com/citations?user=4nDrH1cAAAAJ&hl=en"><i class="ai ai-google-scholar"></i> Scholar</a>
+      <a href="https://www.linkedin.com/in/nswoodward"><i class="fab fa-fw fa-linkedin"></i> LinkedIn</a>
+      <a href="https://orcid.org/0000-0002-8051-7397"><i class="ai ai-orcid"></i> ORCID</a>
+    </div>
   </div>
 </div>
 
-I am a PhD student at the University of Wisconsin–Madison, where I develop machine learning techniques for theoretical physics. My current research focuses on improving LLM reasoning for theoretical physics.
+<p>I am a PhD student at the University of Wisconsin–Madison, where I develop machine learning techniques for theoretical physics. My current research focuses on improving LLM reasoning for theoretical physics.</p>
 
-I graduated from MIT in 2025 with degrees in Physics and Mathematics. During my undergraduate studies I worked in Professor Phil Harris's group and with the NSF AI Institute for Artificial Intelligence and Fundamental Interactions (IAIFI), building ML tools for high‑energy physics. My experience spans geometric ML for jet physics, detector readout algorithms, and theoretical QFT calculations.
+<p>I graduated from MIT in 2025 with degrees in Physics and Mathematics. During my undergraduate studies I worked in Professor Phil Harris's group and with the NSF AI Institute for Artificial Intelligence and Fundamental Interactions (IAIFI), building ML tools for high‑energy physics. My experience spans geometric ML for jet physics, detector readout algorithms, and theoretical QFT calculations.</p>
 
-## Recent Posts
+<h2>Recent Posts</h2>
 
 {% for post in site.posts limit:3 %}
-  {% if post.title %}
-- [{{ post.title }}]({{ post.url }}) ({{ post.date | date: "%Y-%m-%d" }})
-  {% endif %}
+{% if post.title %}
+<p style="margin: 0.5em 0;">• <a href="{{ post.url }}">{{ post.title }}</a> ({{ post.date | date: "%Y-%m-%d" }})</p>
+{% endif %}
 {% endfor %}
 
-## Recent Publications
+<h2>Recent Publications</h2>
 
-{% comment %}
-  1. Sort ascending by date → oldest→newest
-  2. Reverse the array        → newest→oldest
-  3. Then take limit:3         → three newest, in descending order
-{% endcomment %}
-
-{% assign sorted_pubs = site.publications 
-     | sort: "date"
-     | reverse %}
+{% assign sorted_pubs = site.publications | sort: "date" | reverse %}
 
 {% for post in sorted_pubs limit:3 %}
-  {% if post.link %}
-- [{{ post.title }}]({{ post.link }}) ({{ post.date | date: "%Y" }})
-  {% elsif post.paperurl %}
-- [{{ post.title }}]({{ post.paperurl }}) ({{ post.date | date: "%Y" }})
-  {% else %}
-- [{{ post.title }}]({{ post.url }}) ({{ post.date | date: "%Y" }})
-  {% endif %}
+{% if post.link %}
+<p style="margin: 0.5em 0;">• <a href="{{ post.link }}">{{ post.title }}</a> ({{ post.date | date: "%Y" }})</p>
+{% elsif post.paperurl %}
+<p style="margin: 0.5em 0;">• <a href="{{ post.paperurl }}">{{ post.title }}</a> ({{ post.date | date: "%Y" }})</p>
+{% else %}
+<p style="margin: 0.5em 0;">• <a href="{{ post.url }}">{{ post.title }}</a> ({{ post.date | date: "%Y" }})</p>
+{% endif %}
 {% endfor %}
 
-## Recent Talks
-{% assign sorted_pubs = site.talks 
-     | sort: "date"
-     | reverse %}
+<h2>Recent Talks</h2>
 
-{% for post in sorted_pubs limit:3 %}
-- [{{ post.title }}]({{ post.url }}) ({{ post.date | date: "%Y" }})
+{% assign sorted_talks = site.talks | sort: "date" | reverse %}
+
+{% for post in sorted_talks limit:3 %}
+<p style="margin: 0.5em 0;">• <a href="{{ post.url }}">{{ post.title }}</a> ({{ post.date | date: "%Y" }})</p>
 {% endfor %}
 
 </div>
