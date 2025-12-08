@@ -429,7 +429,10 @@ class QuantumFoamHeader {
         }
 
         if (this.state === AnimationState.INTRO_APPROACH) {
-            const approachSpeed = (this.gridWidth * 0.003); // Increased from 0.0025
+            const isMobile = this.width < 768;
+            // Desktop: 70% slower approach movement
+            const approachSpeed = isMobile ? (this.gridWidth * 0.003) : (this.gridWidth * 0.0009);
+
             if (left.x < left.targetX) left.x += approachSpeed;
             if (right.x > right.targetX) right.x -= approachSpeed;
 
