@@ -379,11 +379,11 @@ class QuantumFoamHeader {
         this.state = AnimationState.INTRO_APPROACH;
 
         const isMobile = this.width < 768;
-        // Desktop: 50% smaller (250*0.5=125), Mobile: 25% smaller (180*0.75=135)
-        const amplitude = isMobile ? 135 : 125;
+        // Desktop: 20% smaller than before (125*0.8=100), Mobile: 25% smaller (180*0.75=135)
+        const amplitude = isMobile ? 135 : 100;
         const sigma = isMobile ? 3.5 : 3.5;
-        // Desktop: 30% slower (0.02*0.7=0.014)
-        const introSpeed = isMobile ? 0.02 : 0.014;
+        // Desktop: 70% slower approach (0.014*0.3=0.0042)
+        const introSpeed = isMobile ? 0.02 : 0.0042;
         const z = this.gridDepth * 0.35;
 
         // Use simple grid positions for edges
