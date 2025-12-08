@@ -379,8 +379,11 @@ class QuantumFoamHeader {
         this.state = AnimationState.INTRO_APPROACH;
 
         const isMobile = this.width < 768;
-        const amplitude = isMobile ? 180 : 250;
+        // Desktop: 50% smaller (250*0.5=125), Mobile: 25% smaller (180*0.75=135)
+        const amplitude = isMobile ? 135 : 125;
         const sigma = isMobile ? 3.5 : 3.5;
+        // Desktop: 30% slower (0.02*0.7=0.014)
+        const introSpeed = isMobile ? 0.02 : 0.014;
         const z = this.gridDepth * 0.35;
 
         // Use simple grid positions for edges
@@ -396,7 +399,7 @@ class QuantumFoamHeader {
             maxAmplitude: amplitude,
             sigma: sigma,
             phase: 0,
-            speed: 0.02,
+            speed: introSpeed,
             targetX: centerX - 10,
             noiseScale: 0.2
         };
@@ -408,7 +411,7 @@ class QuantumFoamHeader {
             maxAmplitude: amplitude,
             sigma: sigma,
             phase: 0,
-            speed: 0.02,
+            speed: introSpeed,
             targetX: centerX + 10,
             noiseScale: 0.2
         };
