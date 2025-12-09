@@ -389,8 +389,8 @@ class QuantumFoamHeader {
         // Use simple grid positions for edges
         const centerX = this.gridWidth / 2;
         // On desktop, spawn further out so they appear at screen edges
-        const leftX = isMobile ? 5 : -12; // Beyond left edge of grid for desktop (40% closer)
-        const rightX = isMobile ? this.gridWidth - 5 : this.gridWidth + 12; // Beyond right edge for desktop (40% closer)
+        const leftX = isMobile ? 5 : -7; // Beyond left edge of grid for desktop
+        const rightX = isMobile ? this.gridWidth - 5 : this.gridWidth + 7; // Beyond right edge for desktop
 
         const leftBlob = {
             x: leftX,
