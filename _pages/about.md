@@ -37,7 +37,7 @@ redirect_from:
 
 <p>I am a PhD student at the University of Wisconsin–Madison, where I develop machine learning techniques for theoretical physics. My current research focuses on improving LLM reasoning for theoretical physics.</p>
 
-<p>I graduated from MIT in 2025 with degrees in Physics and Mathematics. During my undergraduate studies I worked in Professor Phil Harris's group and with the NSF AI Institute for Artificial Intelligence and Fundamental Interactions (IAIFI), building ML tools for high‑energy physics. My experience spans geometric ML for jet physics, detector readout algorithms, and theoretical QFT calculations.</p>
+<p>I graduated from MIT in 2025 with degrees in Physics and Mathematics. During my undergraduate studies I worked in <a href="https://physics.mit.edu/faculty/philip-harris/" target="_blank">Professor Phil Harris</a>'s group and with the <a href="https://iaifi.org/" target="_blank">NSF AI Institute for Artificial Intelligence and Fundamental Interactions (IAIFI)</a>, building ML tools for high‑energy physics. My experience spans geometric ML for jet physics, detector readout algorithms, and theoretical QFT calculations.</p>
 
 <h2>Recent Publications</h2>
 
